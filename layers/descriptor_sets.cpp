@@ -1,7 +1,7 @@
-/* Copyright (c) 2015-2018 The Khronos Group Inc.
- * Copyright (c) 2015-2018 Valve Corporation
- * Copyright (c) 2015-2018 LunarG, Inc.
- * Copyright (C) 2015-2018 Google Inc.
+/* Copyright (c) 2015-2019 The Khronos Group Inc.
+ * Copyright (c) 2015-2019 Valve Corporation
+ * Copyright (c) 2015-2019 LunarG, Inc.
+ * Copyright (C) 2015-2019 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1494,6 +1494,37 @@ bool cvdescriptorset::ValidateImageUpdate(VkImageView image_view, VkImageLayout 
         error_str << "ImageView (" << image_view << ") with usage mask 0x" << usage
                   << " being used for a descriptor update of type " << string_VkDescriptorType(type) << " does not have "
                   << error_usage_bit << " set.";
+        *error_msg = error_str.str();
+        return false;
+    }
+
+    // Test that the layout is compatible with the descriptorType
+    std::vector<VkImageLayout> valid_layouts = {VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL,
+                                                VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, VK_IMAGE_LAYOUT_GENERAL};
+    valid_layouts.reserve(6);
+    if (dev_data->extensions.vk_khr_shared_presentable_image) {
+        valid_layouts.push_back(VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR);
+    }
+    if (dev_data->extensions.vk_khr_maintenance2) {
+        valid_layouts.push_back(VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL);
+        valid_layouts.push_back(VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL);
+    }
+    if (std::find(valid_layouts.cbegin(), valid_layouts.cend(), image_layout) == valid_layouts.cend()) {
+        *error_code = "VUID-VkWriteDescriptorSet-descriptorType-01403";
+        std::stringstream error_str;
+        error_str << "Descriptor update with descriptorType " << string_VkDescriptorType(type)
+                  << " is being updated with invalid imageLayout " << string_VkImageLayout(image_layout)
+                  << ". Allowed layouts are: ";
+
+        for (size_t i = 0; i < valid_layouts.size(); i++) {
+            if (i > 0) {
+                error_str << ", ";
+                if (i + 1 == valid_layouts.size()) {
+                    error_str << " and ";
+                }
+            }
+            error_str << string_VkImageLayout(valid_layouts[i]);
+        }
         *error_msg = error_str.str();
         return false;
     }
