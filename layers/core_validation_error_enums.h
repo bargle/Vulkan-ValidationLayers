@@ -20,6 +20,7 @@
  * Author: Chris Forbes <chrisf@ijw.co.nz>
  * Author: Mark Lobodzinski <mark@lunarg.com>
  * Author: Dave Houlton <daveh@lunarg.com>
+ * Author: John Zulauf <jzulauf@lunarg.com>
  */
 #ifndef CORE_VALIDATION_ERROR_ENUMS_H_
 #define CORE_VALIDATION_ERROR_ENUMS_H_
@@ -63,7 +64,6 @@ static const char DECORATE_UNUSED *kVUID_Core_DrawState_InvalidBuffer = "UNASSIG
 static const char DECORATE_UNUSED *kVUID_Core_DrawState_InvalidCommandBuffer = "UNASSIGNED-CoreValidation-DrawState-InvalidCommandBuffer";
 static const char DECORATE_UNUSED *kVUID_Core_DrawState_InvalidCommandBufferSimultaneousUse = "UNASSIGNED-CoreValidation-DrawState-InvalidCommandBufferSimultaneousUse";
 static const char DECORATE_UNUSED *kVUID_Core_DrawState_InvalidDescriptorSet = "UNASSIGNED-CoreValidation-DrawState-InvalidDescriptorSet";
-static const char DECORATE_UNUSED *kVUID_Core_DrawState_InvalidDynamicOffsetCount = "UNASSIGNED-CoreValidation-DrawState-InvalidDynamicOffsetCount";
 static const char DECORATE_UNUSED *kVUID_Core_DrawState_InvalidEvent = "UNASSIGNED-CoreValidation-DrawState-InvalidEvent";
 static const char DECORATE_UNUSED *kVUID_Core_DrawState_InvalidExtents = "UNASSIGNED-CoreValidation-DrawState-InvalidExtents";
 static const char DECORATE_UNUSED *kVUID_Core_DrawState_InvalidFeature = "UNASSIGNED-CoreValidation-DrawState-InvalidFeature";
